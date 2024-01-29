@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <title>Hanzi Chart</title>
+        <meta charset="UTF-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <style>
+            @media print {
+                .no-print, .no-print * {
+                    display: none !important;
+                }
+                body {
+                    background: #fff !important;
+                }
+            }
+
+            body {
+                background: #edeee9;
+                font: 9pt normal Calibri,Arial,Helvetica,sans-serif;
+                margin: 0;
+            }
+            #t {
+                background: #fff;
+                border-collapse: collapse;
+                border-spacing: 0;
+                float: left;
+                margin: 1em;
+            }
+            #t td.black { color: #000 }
+            #t td { width:1cm; border: 1px solid #000; color:#aaa }
+            .pinyin { font: 9pt normal Calibri,Arial,Helvetica,sans-serif; text-align:center }
+            .hanzi {
+                text-align:center;
+                font: 0.85cm normal Georgia, "Times New Roman", "KaiTi", "楷体", STKaiti, 华文楷体, serif;
+            }
+            .hanzi td {
+                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23bbb" stroke-width="2"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>');
+                background-repeat: none;
+                padding:0;
+            }
+
+            .grid-10mm .hanzi {
+                height:1cm; 
+            }
+            .grid-10mm .hanzi td {
+                background-size: 1cm 1cm;
+                width: 1cm;
+                height: 1cm;
+                min-width: 1cm;
+                min-height: 1cm;
+            }
+
+            .grid-17mm .hanzi {
+                height: 1.7cm;
+            }
+            .grid-17mm .hanzi td {
+                background-size: 1.7cm 1.7cm;
+                width: 1.7cm;
+                height: 1.7cm;
+                min-width: 1.7cm;
+                min-height: 1.7cm;
+                font-size: 1.4cm;
+            }
+
+            form {
+                background: #D8DBCE;
+                float: left;
+                margin: 1em;
+                padding: 10px;
+            }
+            .label {
+                display: block;
+                padding: 10px;
+            }
+            .label span {
+                display: inline-block;
+                width: 6em;
+            }
+            button {
+                background: #bba;
+                border: 1px solid #776;
+                border-radius: .25rem;
+                cursor: pointer;
+            }
+            button:hover, button::selection {
+                background: #887;
+            }
+            keyboard {
+                display: inline-block;
+            }
+            keyboard button {
+                display: inline-block;
+                font-size: 16pt;
+                margin: 1px 2px;
+                min-width: 2em;
+                padding: 1px 4px;
+            }
+            templates {
+                display: inline-block;
+            }
+            templates button {
+                display: inline-block;
+                font-size: 16pt;
+                margin: 1px 2px;
+                min-width: 13em;
+                padding: 1px 4px;
+            }
+            select {
+                border-radius: .25rem;
+            }
+            textarea {
+                border-radius: .25rem;
+                font: 12pt normal Georgia, "Times New Roman", "KaiTi", "楷体", STKaiti, 华文楷体, serif;
+                padding: .5rem;
+                text-align:left;
+                vertical-align: top;
+                width: 260px;
+            }
+            h1 {
+                background: #123;
+                color: #ffa;
+                margin:0;
+                padding: 10px 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 class="no-print">Generador de Plantillas Hanzi</h1>
+
+        <table id="t" class="grid-10mm">
+            <tbody>
+            </tbody>
+        </table>
+        <form id="f" class="no-print" onsubmit="false">
+            <div class="label"><span>Tamaño: </span><select id="grid-size"><option value="grid-10mm">10mm</option><option value="grid-17mm">17mm</option></select></div>
+            <div class="label"><span>Hanzis: </span><textarea id="hanzis" cols="30" rows="7">líng 零
+yī 一
+èr 二
+liǎng 两
+sān 三
+sì 四
+wǔ 五
+liù 六
+qī 七
+bā 八
+jiǔ 九
+shí 十
+bǎi 百
+qiān 千
+wàn 万</textarea></div>
+            <div class="label"><span></span><button type="button" id="btnUpdate">Actualizar</button></div>
+            <div class="label"><span></span><keyboard>
+                Caracteres especiales (pulsar para insertar):<br>
+                <button>á</button><button>é</button><button>í</button><button>ó</button><button>ú</button><button>ǘ</button><br>
+                <button>à</button><button>è</button><button>ì</button><button>ò</button><button>ù</button><button>ǜ</button><br>
+                <button>ā</button><button>ē</button><button>ī</button><button>ō</button><button>ū</button><button>ǖ</button><br>
+                <button>ǎ</button><button>ě</button><button>ǐ</button><button>ǒ</button><button>ǔ</button><button>ǚ</button>
+            </keyboard></div>
+            <div class="label"><span></span><templates>
+                Plantillas de ejemplo:<br>
+                <button id="numbers">Números</button><br>
+                <button id="salutations">Saludos</button><br>
+                <button id="presentations1">Presentaciones (I)</button><br>
+                <button id="presentations2">Presentaciones (II)</button><br>
+                <button id="countries1">Países (I)</button>
+            </templates></div>
+        </form>
+        <script type="application/javascript">
+
+            $.fn.insertAtCaret = function(text) {
+                return this.each(function() {
+                    if (document.selection && this.tagName == 'TEXTAREA') {
+                        //IE textarea support
+                        this.focus();
+                        sel = document.selection.createRange();
+                        sel.text = text;
+                        this.focus();
+                    } else if (this.selectionStart || this.selectionStart == '0') {
+                        //MOZILLA/NETSCAPE support
+                        startPos = this.selectionStart;
+                        endPos = this.selectionEnd;
+                        scrollTop = this.scrollTop;
+                        this.value = this.value.substring(0, startPos) + text + this.value.substring(endPos, this.value.length);
+                        this.focus();
+                        this.selectionStart = startPos + text.length;
+                        this.selectionEnd = startPos + text.length;
+                        this.scrollTop = scrollTop;
+                    } else {
+                        // IE input[type=text] and other browsers
+                        this.value += text;
+                        this.focus();
+                        this.value = this.value;    // forces cursor to end
+                    }
+                });
+            };
+
+            var updateChars = function() {
+                var tbody, i, j;
+                var contents = $("#hanzis").val().split(/[ \t\n]+/);
+
+                tbody = $("#t tbody");
+                tbody.empty();
+                for (i = 0; i < contents.length; i += 2) {
+                    var pinyin = contents[i + 0];
+                    var hanzi = contents[i + 1];
+                    var row1 = "<tr class='pinyin'>"
+                    var row2 = "<tr class='hanzi'>"
+                    for (j = 0; j < 17; j++) {
+                        row1 += "<td>" + pinyin;
+                        row2 += "<td>" + (j < 5 ? hanzi : ' ');
+                    }
+                    tbody.append(row1, row2);
+                }
+            }
+            var updateWords = function() {
+                var tableClass = $("#grid-size").val();
+                var CELLS = 5;
+                if (tableClass === "grid-10mm") {
+                    CELLS = 17;
+                } else if (tableClass === "grid-17mm") {
+                    CELLS = 10;
+                }
+
+                var tbody, i, j, k, n, mod, contents;
+                var lines = $("#hanzis").val().split(/\n/);
+
+                tbody = $("#t tbody");
+                tbody.empty();
+                for (i = 0; i < lines.length; i++) {
+                    contents = lines[i].trim().split(/[ \t]+/);
+
+                    var row1 = "<tr class='pinyin'>";
+                    var row2 = "<tr class='hanzi'>";
+                    if (contents.length == 0) {
+                        for (j = 0; j < CELLS; j++) {
+                            row1 += "<td>";
+                            row2 += "<td>";
+                        }
+                    } else {
+                        mod = contents.length;
+                        n = mod == 2 ? 5 : (mod / 2) * 3;
+                        for (j = 0; j < CELLS; j++) {
+                            var pinyin = contents[(2 * j + 0) % mod];
+                            var hanzi  = contents[(2 * j + 1) % mod];
+                            var tag = j < (mod / 2) ? "<td class='black'>" : "<td>";
+                            row1 += tag + pinyin;
+                            row2 += tag + (j < n ? hanzi : ' ');
+                        }
+                    }
+                    tbody.append(row1, row2);
+                }
+            }
+            $(document).ready(updateWords);
+            $("form").submit(function (e) { e.preventDefault(); });
+            $("#grid-size").change(function() {
+                var klass = $(this).val();
+                $("#t").attr("class", klass);
+                updateWords();
+            })
+            $("#btnUpdate").click(updateWords);
+            $("keyboard button").click(function() {
+                var letter = $(this).text();
+                $("#hanzis").insertAtCaret(letter);
+            });
+            $("#numbers").click(function() {
+                $("#hanzis").val("líng 零\nyī 一\nèr 二\nliǎng 两\nsān 三\nsì 四\nwǔ 五\nliù 六\nqī 七\nbā 八\njiǔ 九\nshí 十\nbǎi 百\nqiān 千\nwàn 万");
+                updateWords();
+            });
+            $("#salutations").click(function() {
+                $("#hanzis").val("wǒ 我\nnǐ 你\nnín 您\ntā 他\ntā 她\ntā 它\nmen 们\nzǎo 早 shang 上 hǎo 好\nxià 下 wǔ 午 hǎo 好\nwǎn 晚 shang 上 hǎo 好\nzǎo 早 ān 安\nwǔ 午 ān 安\nwǎn 晚 ān 安\nnǐ 你 hǎo 好 ma 吗\nwǒ 我 yě 也 hěn 很 hǎo 好\nnǐ 你 ne 呢");
+                updateWords();
+            });
+            $("#presentations1").click(function() {
+                $("#hanzis").val("hěn 很 gāo 高 xìng 兴\n\nrèn 认 shi 识 nǐ 你\n\nnǐ 你 jiào 叫 shén 什 me 么 míng 名 zì 字\n\nnín 您 guì 贵 xìng 姓\n\ntáng 唐 rén 人 jiē 街\n\nzhè 这 shì 是\n\nwǒ 我 de 的\n\nxiè 谢 xiè 谢\n\nbú 不 kè 客 qi 气\n");
+                updateWords();
+            });
+            $("#presentations2").click(function() {
+                $("#hanzis").val("xiǎo 小 jiě 姐\n\nxiān 先 sheng 生\n\nmèi 妹 mei 妹\n\nlǎo 老 bǎn 板\n\nxià 下 shǔ 属\n\ntóng 同 shì 事\n\nnán 男 péng 朋 you 友\n\nnǚ 女 peng 朋 you 友\n\ntài 太 tai 太\n\nzhàng 丈 fu 夫\n");
+                updateWords();
+            });
+            $("#countries1").click(function() {
+                $("#hanzis").val("guó 国 jiā 家\nrén 人 mín 民\nzhōng 中 guó 国\nměi 美 guó 国\nyīng 英 guó 国\ndé 德 guó 国\nfǎ 法 guó 国\nyì 意 dà 大 lì 利\né 俄 luó 罗 sī 斯\nxī 西 bān 班 yá 牙\njiā 加 ná 拿 dà 大\nruì 瑞 diǎn 典\nrì 日 běn 本\nrén 人\nnǐ 你 shì 是 nǎ 哪 guó 国 rén 人\n\n");
+                updateWords();
+            });
+        </script>
+    </body>
+</html>
