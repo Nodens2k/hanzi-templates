@@ -5,6 +5,10 @@
         <meta charset="UTF-8">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <style>
+            @font-face {
+                font-family: kaiti-regular;
+                src: url("./kaiti-regular.ttf");
+            }
             @media print {
                 .no-print, .no-print * {
                     display: none !important;
@@ -52,10 +56,10 @@
             }
             #t td.black { color: #000 }
             #t td { border: 1px solid #000; color:#aaa }
-            .pinyin { font: 9pt normal Calibri,Arial,Helvetica,sans-serif; text-align:center }
+            .pinyin { font: 1vw normal Calibri,Arial,Helvetica,sans-serif; text-align:center }
             .hanzi {
                 text-align:center;
-                font: 1.0cm "KaiTi", "楷体";
+                font: 3vw "kaiti-regular";
             }
             .hanzi td {
                 background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23ccc" stroke-width="1" stroke-dasharray="5,5"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>');
@@ -75,15 +79,15 @@
             }
 
             .grid-17mm .hanzi {
-                height: 1.7cm;
+                height: 5vw;
             }
             .grid-17mm .hanzi td {
-                background-size: 1.7cm 1.7cm;
-                width: 1.7cm;
-                height: 1.7cm;
-                min-width: 1.7cm;
-                min-height: 1.7cm;
-                font-size: 1.4cm;
+                background-size: 5vw 5vw;
+                width: 5vw;
+                height: 5vw;
+                min-width: 5vw;
+                min-height: 5vw;
+                font-size: 4vw;
             }
 
             form {
