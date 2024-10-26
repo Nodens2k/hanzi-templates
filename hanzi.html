@@ -3,8 +3,11 @@
     <head>
         <title>Hanzi Chart</title>
         <meta charset="UTF-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <style>
+        <style type="text/css">
             @font-face {
                 font-family: kaiti-regular;
                 src: url("./kaiti-regular.ttf");
@@ -15,6 +18,9 @@
                 }
                 body {
                     background: #fff !important;
+                }
+                .pinyin {
+                    font-size: 0.35cm !important;
                 }
 
                 .grid-10mm .hanzi {
@@ -55,14 +61,14 @@
                 margin: 1em;
             }
             #t td.black { color: #000 }
-            #t td { border: 1px solid #000; color:#aaa }
-            .pinyin { font: 1vw normal Calibri,Arial,Helvetica,sans-serif; text-align:center }
+            #t td { border: 1px solid #000; color:#c0c0c0 }
+            .pinyin { font: 1vw normal Tahoma,Arial,Helvetica,sans-serif; text-align:center }
             .hanzi {
                 text-align:center;
                 font: 3vw "kaiti-regular";
             }
             .hanzi td {
-                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23ccc" stroke-width="1" stroke-dasharray="5,5"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>');
+                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23bbbbbb" stroke-width="1" stroke-dasharray="5,5"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>');
                 background-repeat: none;
                 padding:0;
             }
@@ -137,7 +143,7 @@
             }
             textarea {
                 box-sizing: border-box;
-                font: 12pt Georgia, "Times New Roman", "KaiTi", "楷体", STKaiti, 华文楷体, serif;
+                font: 1.1vw "Calibri", sans-serif;
                 padding: .5rem;
                 text-align:left;
                 vertical-align: top;
@@ -161,7 +167,7 @@
         <form id="f" class="no-print" onsubmit="false">
             <div class="label"><span>Tamaño: </span><select id="grid-size"><option value="grid-10mm">10mm</option><option value="grid-17mm">17mm</option></select></div>
             <div class="label"><span>Hanzis: </span><textarea id="hanzis" cols="30" rows="7"></textarea></div>
-            <div class="label"><span></span><button type="button" id="btnUpdate">Actualizar</button> &nbsp; <button type="button" id="btnLink">Enlace</button></div>
+            <div class="label"><span></span><button type="button" id="btnUpdate">Actualizar</button> &nbsp; <button type="button" id="btnLink">Enlace Permanente</button></div>
             <div class="label"><span></span><keyboard>
                 Caracteres especiales <br>(pulsar para insertar):<br>
                 <button>á</button><button>é</button><button>í</button><button>ó</button><button>ú</button><button>ǘ</button><br>
@@ -170,15 +176,7 @@
                 <button>ǎ</button><button>ě</button><button>ǐ</button><button>ǒ</button><button>ǔ</button><button>ǚ</button>
             </keyboard></div>
             <div class="label"><span></span><templates>
-                Plantillas de ejemplo:<br>
-                <button class="template" id="numbers">Números</button><br>
-                <button class="template" id="salutations">Saludos</button><br>
-                <button class="template" id="presentations1">Presentaciones (I)</button><br>
-                <button class="template" id="presentations2">Presentaciones (II)</button><br>
-                <button class="template" id="countries1">Países (I)</button><br>
-                <button class="template" id="family1">Familia (I)</button><br>
-                <button class="template" id="miscellaneous1">Varios (I)</button><br>
-                <button class="template" id="zodiac1">Zodiaco</button>
+                Plantillas de ejemplo:
             </templates></div>
         </form>
         <script type="application/javascript">
@@ -210,21 +208,41 @@
                 });
             };
 
+            function Template(id, label, contents) {
+                this.id = id;
+                this.label = label;
+                this.contents = contents;
+            }
+
             var templates = {
-                "numbers": "líng 零\nyī 一\nèr 二\nliǎng 两\nsān 三\nsì 四\nwǔ 五\nliù 六\nqī 七\nbā 八\njiǔ 九\nshí 十\nbǎi 百\nqiān 千\nwàn 万",
-                "salutations": "wǒ 我\nnǐ 你\nnín 您\ntā 他\ntā 她\ntā 它\nmen 们\nzǎo 早 shang 上 hǎo 好\nxià 下 wǔ 午 hǎo 好\nwǎn 晚 shang 上 hǎo 好\nzǎo 早 ān 安\nwǔ 午 ān 安\nwǎn 晚 ān 安\nnǐ 你 hǎo 好 ma 吗\nwǒ 我 yě 也 hěn 很 hǎo 好\nnǐ 你 ne 呢",
-                "presentations1": "hěn 很 gāo 高 xìng 兴\n\nrèn 认 shi 识 nǐ 你\n\nnǐ 你 jiào 叫 shén 什 me 么 míng 名 zì 字\n\nnín 您 guì 贵 xìng 姓\n\nnǐ 你 xìng 姓 shén 什 me 么\n\nzhè 这 shì 是\n\nwǒ 我 de 的\n\nxiè 谢 xiè 谢\n\nbú 不 kè 客 qi 气\n",
-                "presentations2": "xiǎo 小 jiě 姐\n\nxiān 先 sheng 生\n\nmèi 妹 mei 妹\n\nlǎo 老 bǎn 板\n\nxià 下 shǔ 属\n\ntóng 同 shì 事\n\nnán 男 péng 朋 you 友\n\nnǚ 女 peng 朋 you 友\n\ntài 太 tai 太\n\nzhàng 丈 fu 夫\n",
-                "countries1": "guó 国 jiā 家\nrén 人 mín 民\nzhōng 中 guó 国\nměi 美 guó 国\nyīng 英 guó 国\ndé 德 guó 国\nfǎ 法 guó 国\nyì 意 dà 大 lì 利\né 俄 luó 罗 sī 斯\nxī 西 bān 班 yá 牙\njiā 加 ná 拿 dà 大\nruì 瑞 diǎn 典\nrì 日 běn 本\nrén 人\nnǐ 你 shì 是 nǎ 哪 guó 国 rén 人\n\n",
-                "family1": "nǐ 你 jiā 加 yǒu 油 jǐ 几 kǒu 口 rén 人\n\nbà 爸 ba 爸\nmā 妈 ma 妈\nzhàng 丈 fu 夫\nqī 妻 zi 子\nyé 爷 ye 爷\nnǎi 奶 nai 奶\nwài 外 gōng 公\nwài 外 pó 婆\ngē 哥 ge 哥\ndì 弟 di 弟\njiě 姐 jie 姐\nmèi 妹 mei 妹\nxiōng 兄 dì 弟 jiě 姐 mèi 妹\nér 儿 zi 子\nnǚ 女 ér 儿",
-                "miscellaneous1": "zuó 昨 tiān 天\njīn 今 tiān 天\nmíng 明 tiān 天\nxīng 星 qī 期\nqù 去 nián 年\nmíng 明 nián 年\njīn 今 nián 年\ndiàn 电 huà 话 hào 号 mǎ 码\ndàn 但 shì 是\ndōu 都\nhé 和\nchū 出 shēng 生\nduo 多 da 大\nduo 多 shao 少\ntīng 听\nshuō 说\ndú 读\nxiě 写",
-                "zodiac1": "shēng 生 xiào 肖\nshǔ 属\nshǔ 鼠\nniú 牛\nhǔ 虎\ntù 兔\nlóng 龙\nshé 蛇\nmǎ 马\nyáng 羊\nhóu 猴\njī 鸡\ngǒu 狗\nzhū 猪\nxīn 新 nián 年\nzhōu 周 mò 末\nshèng 圣 dàn 诞 jié 节\nkuài 快 lè 樂"
+                "numbers": new Template("numbers", "Números", "líng 零\nyī 一\nèr 二\nliǎng 两\nsān 三\nsì 四\nwǔ 五\nliù 六\nqī 七\nbā 八\njiǔ 九\nshí 十\nbǎi 百\nqiān 千\nwàn 万"),
+                "salutations": new Template("salutations", "Saludos", "wǒ 我\nnǐ 你\nnín 您\ntā 他\ntā 她\ntā 它\nmen 们\nzǎo 早 shang 上 hǎo 好\nxià 下 wǔ 午 hǎo 好\nwǎn 晚 shang 上 hǎo 好\nzǎo 早 ān 安\nwǔ 午 ān 安\nwǎn 晚 ān 安\nnǐ 你 hǎo 好 ma 吗\nwǒ 我 yě 也 hěn 很 hǎo 好\nnǐ 你 ne 呢"),
+                "presentations1": new Template("presentations1", "Presentaciones (I)", "hěn 很 gāo 高 xìng 兴\n\nrèn 认 shi 识 nǐ 你\n\nnǐ 你 jiào 叫 shén 什 me 么 míng 名 zì 字\n\nnín 您 guì 贵 xìng 姓\n\nnǐ 你 xìng 姓 shén 什 me 么\n\nzhè 这 shì 是\n\nwǒ 我 de 的\n\nxiè 谢 xiè 谢\n\nbú 不 kè 客 qi 气\n"),
+                "presentations2": new Template("presentations2", "Presentaciones (II)", "xiǎo 小 jiě 姐\n\nxiān 先 sheng 生\n\nmèi 妹 mei 妹\n\nlǎo 老 bǎn 板\n\nxià 下 shǔ 属\n\ntóng 同 shì 事\n\nnán 男 péng 朋 you 友\n\nnǚ 女 peng 朋 you 友\n\ntài 太 tai 太\n\nzhàng 丈 fu 夫\n"),
+                "countries1": new Template("countries1", "Países (I)", "guó 国 jiā 家\nrén 人 mín 民\nzhōng 中 guó 国\nměi 美 guó 国\nyīng 英 guó 国\ndé 德 guó 国\nfǎ 法 guó 国\nyì 意 dà 大 lì 利\né 俄 luó 罗 sī 斯\nxī 西 bān 班 yá 牙\njiā 加 ná 拿 dà 大\nruì 瑞 diǎn 典\nrì 日 běn 本\nrén 人\nnǐ 你 shì 是 nǎ 哪 guó 国 rén 人\n\n"),
+                "family1": new Template("family1", "Familia (I)", "nǐ 你 jiā 傢 yǒu 有 jǐ 几 kǒu 口 rén 人\n\nbà 爸 ba 爸\nmā 妈 ma 妈\nzhàng 丈 fu 夫\nqī 妻 zi 子\nyé 爷 ye 爷\nnǎi 奶 nai 奶\nwài 外 gōng 公\nwài 外 pó 婆\ngē 哥 ge 哥\ndì 弟 di 弟\njiě 姐 jie 姐\nmèi 妹 mei 妹\nxiōng 兄 dì 弟 jiě 姐 mèi 妹\nér 儿 zi 子\nnǚ 女 ér 儿"),
+                "miscellaneous1": new Template("miscellaneous1", "Varios (I)", "zuó 昨 tiān 天\njīn 今 tiān 天\nmíng 明 tiān 天\nxīng 星 qī 期\nqù 去 nián 年\nmíng 明 nián 年\njīn 今 nián 年\ndiàn 电 huà 话 hào 号 mǎ 码\ndàn 但 shì 是\ndōu 都\nhé 和\nchū 出 shēng 生\nduo 多 da 大\nduo 多 shao 少\ntīng 听\nshuō 说\ndú 读\nxiě 写"),
+                "zodiac1": new Template("zodiac1", "Zodiaco", "shēng 生 xiào 肖\nshǔ 属\nshǔ 鼠\nniú 牛\nhǔ 虎\ntù 兔\nlóng 龙\nshé 蛇\nmǎ 马\nyáng 羊\nhóu 猴\njī 鸡\ngǒu 狗\nzhū 猪\nxīn 新 nián 年\nzhōu 周 mò 末\nshèng 圣 dàn 诞 jié 节\nkuài 快 lè 樂"),
+                "time1": new Template("time1", "Tiempo", "qián 前\nzuó 昨\njīn 今\nmíng 明\nhòu 后\nqù 去\ntiān 天\nnián 年\nyuè 月\nxīng 星 qī 期\nzhè 这\ndiǎn 点\nfēn 分\nbàn 半\ncóng 从\ndào 到"),
+                "professions1": new Template("professions1", "Oficios", "zhí 职 yè 业\nlǎo 老 shī 师\ngōng 工 rén 人\nshòu 售 huò 货 yuán 员\nyī 医 shēng 生\nzhí 职 yuán 员\njiā 家 tíng 庭 zhǔ 主 fù 妇\njiā 家 tíng 庭 zhǔ 主 fū 夫\nhù 护 shì 士\nmì 秘 shū 书\nshāng 商 rén 人\ngōng 工 chéng 程 shī 师\njiàn 建 zhù 筑 shī 师\njì 记 shě 者\nlǜ 律 shī 师\nzuò 作 jiā 家\nfú 服 wù 务 yuán 员\nshè 设 jì 计 shī 师\nyùn 运 dòng 动 yuán 员\nsī 司 jī 机\nxué 学 sheng 生\nmiàn 面 bāo 包 shī 师\nfǎ 法 guān 官"),
+                "workplaces": new Template("workplaces", "Lugares de Trabajo", "bàn 办 gōng 公 shì 室\nshāng 商 diàn 店\nbǎi 百 huò 货\ngōng 公 sī 司\nshū 书 fáng 房\nyǔ 语 yán 言\nxué 学 xiào 校\nfǎ 法 yuàn 院\nyī 医 yuàn 院\ngōng 工 chǎng 厂\njiā 家\nfáng 饭 guǎn 馆\ndà 大 xué 学\nsī 私 rén 人\nzhěn 诊 suǒ 所")
             };
 
             var createTemplate = function() {
                 var text = $("#hanzis").val();
                 var text = text.replaceAll("\n", "\\n");
                 console.info("Template code:\n  \"" + text + "\"");
+            }
+
+            var initTemplates = function() {
+                var root = $("templates");
+                for (const key in templates) {
+                    if (templates.hasOwnProperty(key)) {
+                        var id = templates[key].id;
+                        var label = templates[key].label;
+                        root.append("<br><button class='template' id='" + key + "'>" + label + "</button>")
+                    }
+                }
             }
 
             var updateChars = function() {
@@ -289,14 +307,17 @@
                 var url = window.location.origin + window.location.pathname;
                 url += "?size=" + $("#grid-size").val() + "&hanzis=" + encodeURIComponent(text);
                 navigator.clipboard.writeText(url);
+                console.debug("Link copied to clipboard: " + url);
             }
 
             var updateTemplate = function() {
                 var id = this.id;
-                var value = templates[id];
-                $("#hanzis").val(value);
+                var template = templates[id];
+                $("#hanzis").val(template.contents);
                 updateWords();
             }
+
+            initTemplates();
 
             $("form").submit(function (e) { e.preventDefault(); });
             $("#grid-size").change(function() {
@@ -322,7 +343,7 @@
                     var text = params.get("hanzis");
                     $("#hanzis").val(text);
                 } else {
-                    $("#hanzis").val(templates["numbers"]);
+                    $("#hanzis").val(templates["numbers"].contents);
                 }
                 updateWords();
             });
