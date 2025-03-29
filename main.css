@@ -1,0 +1,148 @@
+@font-face {
+    font-family: kaiti-regular;
+    src: url("./kaiti-regular.ttf");
+}
+@media print {
+    .no-print, .no-print * {
+        display: none !important;
+    }
+    body {
+        background: #fff !important;
+    }
+    .pinyin {
+        font-size: 0.27cm !important;
+    }
+
+    .grid-10mm .hanzi {
+        height:1cm !important; 
+    }
+    .grid-10mm .hanzi td {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23bbbbbb" stroke-width="1" stroke-dasharray="5,5"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>') !important;
+        background-size: 1cm 1cm !important;
+        width: 1cm !important;
+        height: 1cm !important;
+        min-width: 1cm !important;
+        min-height: 1cm !important;
+        font-size: 0.85cm !important;
+    }
+
+    .grid-17mm .hanzi {
+        height: 1.7cm !important;
+    }
+    .grid-17mm .hanzi td {
+        background-size: 1.7cm 1.7cm !important;
+        width: 1.7cm !important;
+        height: 1.7cm !important;
+        min-width: 1.7cm !important;
+        min-height: 1.7cm !important;
+        font-size: 1.4cm !important;
+    }
+}
+
+body {
+    background: #edeee9;
+    font: 9pt normal Calibri,Arial,Helvetica,sans-serif;
+    margin: 0;
+}
+#t {
+    background: #fff;
+    border-collapse: collapse;
+    border-spacing: 0;
+    float: left;
+    margin: 1em;
+}
+#t td.black { color: #000 }
+#t td { border: 1px solid #000; color:#c0c0c0 }
+.pinyin { font: 0.9vw normal Tahoma,Arial,Helvetica,sans-serif; text-align:center }
+.hanzi {
+    text-align:center;
+    font: 3vw "kaiti-regular";
+}
+.hanzi td {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23bbbbbb" stroke-width="1" stroke-dasharray="5,5"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>');
+    background-repeat: no-repeat;
+    padding:0;
+}
+
+.grid-10mm .hanzi {
+    height:3.5vw; 
+}
+.grid-10mm .hanzi td {
+    background-size: 3.5vw 3.5vw;
+    width: 3.5vw;
+    height: 3.5vw;
+    min-width: 3.5vw;
+    min-height: 3.5vw;
+}
+
+.grid-17mm .hanzi {
+    height: 5vw;
+}
+.grid-17mm .hanzi td {
+    background-size: 5vw 5vw;
+    width: 5vw;
+    height: 5vw;
+    min-width: 5vw;
+    min-height: 5vw;
+    font-size: 4vw;
+}
+
+form {
+    background: #D8DBCE;
+    float: left;
+    margin: 1em 0 1em 0.5em;
+    padding: 0.5vw;
+}
+.label {
+    display: block;
+    padding: 10px;
+}
+.label span {
+    display: block;
+    width: 11em;
+}
+button {
+    background: #bba;
+    border: 1px solid #776;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-size: 16pt;
+}
+button:hover, button::selection {
+    background: #887;
+}
+keyboard {
+    display: inline-block;
+}
+keyboard button {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 1px 2px;
+    min-width: 3vw;
+    padding: 1px 4px;
+}
+templates {
+    display: inline-block;
+}
+templates button {
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 16pt;
+    margin: 1px 2px;
+    min-width: 20vw;
+    padding: 1px 4px;
+}
+textarea {
+    box-sizing: border-box;
+    font: 1.1vw "Calibri", sans-serif;
+    padding: .5rem;
+    text-align:left;
+    vertical-align: top;
+    width: 20vw;
+}
+h1 {
+    background: #123;
+    color: #ffa;
+    margin:0;
+    padding: 10px 20px;
+}

@@ -5,157 +5,10 @@
         <meta charset="UTF-8">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="main.css">
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <style type="text/css">
-            @font-face {
-                font-family: kaiti-regular;
-                src: url("./kaiti-regular.ttf");
-            }
-            @media print {
-                .no-print, .no-print * {
-                    display: none !important;
-                }
-                body {
-                    background: #fff !important;
-                }
-                .pinyin {
-                    font-size: 0.35cm !important;
-                }
-
-                .grid-10mm .hanzi {
-                    height:1cm !important; 
-                }
-                .grid-10mm .hanzi td {
-                    background-size: 1cm 1cm !important;
-                    width: 1cm !important;
-                    height: 1cm !important;
-                    min-width: 1cm !important;
-                    min-height: 1cm !important;
-                    font-size: 0.85cm !important;
-                }
-
-                .grid-17mm .hanzi {
-                    height: 1.7cm !important;
-                }
-                .grid-17mm .hanzi td {
-                    background-size: 1.7cm 1.7cm !important;
-                    width: 1.7cm !important;
-                    height: 1.7cm !important;
-                    min-width: 1.7cm !important;
-                    min-height: 1.7cm !important;
-                    font-size: 1.4cm !important;
-                }
-            }
-
-            body {
-                background: #edeee9;
-                font: 9pt normal Calibri,Arial,Helvetica,sans-serif;
-                margin: 0;
-            }
-            #t {
-                background: #fff;
-                border-collapse: collapse;
-                border-spacing: 0;
-                float: left;
-                margin: 1em;
-            }
-            #t td.black { color: #000 }
-            #t td { border: 1px solid #000; color:#c0c0c0 }
-            .pinyin { font: 1vw normal Tahoma,Arial,Helvetica,sans-serif; text-align:center }
-            .hanzi {
-                text-align:center;
-                font: 3vw "kaiti-regular";
-            }
-            .hanzi td {
-                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1cm" height="1cm" viewBox="0 0 100 100" fill="none" stroke="%23bbbbbb" stroke-width="1" stroke-dasharray="5,5"><line x1="0" y1="0" x2="100" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="50" y1="0" x2="50" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/></svg>');
-                background-repeat: none;
-                padding:0;
-            }
-
-            .grid-10mm .hanzi {
-                height:3.5vw; 
-            }
-            .grid-10mm .hanzi td {
-                background-size: 3.5vw 3.5vw;
-                width: 3.5vw;
-                height: 3.5vw;
-                min-width: 3.5vw;
-                min-height: 3.5vw;
-            }
-
-            .grid-17mm .hanzi {
-                height: 5vw;
-            }
-            .grid-17mm .hanzi td {
-                background-size: 5vw 5vw;
-                width: 5vw;
-                height: 5vw;
-                min-width: 5vw;
-                min-height: 5vw;
-                font-size: 4vw;
-            }
-
-            form {
-                background: #D8DBCE;
-                float: left;
-                margin: 1em 0 1em 0.5em;
-                padding: 0.5vw;
-            }
-            .label {
-                display: block;
-                padding: 10px;
-            }
-            .label span {
-                display: block;
-                width: 6em;
-            }
-            button {
-                background: #bba;
-                border: 1px solid #776;
-                border-radius: .25rem;
-                cursor: pointer;
-                font-size: 16pt;
-            }
-            button:hover, button::selection {
-                background: #887;
-            }
-            keyboard {
-                display: inline-block;
-            }
-            keyboard button {
-                box-sizing: border-box;
-                display: inline-block;
-                margin: 1px 2px;
-                min-width: 3vw;
-                padding: 1px 4px;
-            }
-            templates {
-                display: inline-block;
-            }
-            templates button {
-                box-sizing: border-box;
-                display: inline-block;
-                font-size: 16pt;
-                margin: 1px 2px;
-                min-width: 20vw;
-                padding: 1px 4px;
-            }
-            textarea {
-                box-sizing: border-box;
-                font: 1.1vw "Calibri", sans-serif;
-                padding: .5rem;
-                text-align:left;
-                vertical-align: top;
-                width: 20vw;
-            }
-            h1 {
-                background: #123;
-                color: #ffa;
-                margin:0;
-                padding: 10px 20px;
-            }
-        </style>
+        <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     </head>
     <body>
         <h1 class="no-print">Generador de Plantillas Hanzi</h1>
@@ -175,8 +28,8 @@
                 <button>ā</button><button>ē</button><button>ī</button><button>ō</button><button>ū</button><button>ǖ</button><br>
                 <button>ǎ</button><button>ě</button><button>ǐ</button><button>ǒ</button><button>ǔ</button><button>ǚ</button>
             </keyboard></div>
-            <div class="label"><span></span><templates>
-                Plantillas de ejemplo:
+            <div class="label"><span>Plantillas de ejemplo: (<a href="javascript:loadTemplates()">recargar</a>)</span><templates>
+                
             </templates></div>
         </form>
         <script type="application/javascript">
@@ -225,7 +78,9 @@
                 "zodiac1": new Template("zodiac1", "Zodiaco", "shēng 生 xiào 肖\nshǔ 属\nshǔ 鼠\nniú 牛\nhǔ 虎\ntù 兔\nlóng 龙\nshé 蛇\nmǎ 马\nyáng 羊\nhóu 猴\njī 鸡\ngǒu 狗\nzhū 猪\nxīn 新 nián 年\nzhōu 周 mò 末\nshèng 圣 dàn 诞 jié 节\nkuài 快 lè 樂"),
                 "time1": new Template("time1", "Tiempo", "qián 前\nzuó 昨\njīn 今\nmíng 明\nhòu 后\nqù 去\ntiān 天\nnián 年\nyuè 月\nxīng 星 qī 期\nzhè 这\ndiǎn 点\nfēn 分\nbàn 半\ncóng 从\ndào 到"),
                 "professions1": new Template("professions1", "Oficios", "zhí 职 yè 业\nlǎo 老 shī 师\ngōng 工 rén 人\nshòu 售 huò 货 yuán 员\nyī 医 shēng 生\nzhí 职 yuán 员\njiā 家 tíng 庭 zhǔ 主 fù 妇\njiā 家 tíng 庭 zhǔ 主 fū 夫\nhù 护 shì 士\nmì 秘 shū 书\nshāng 商 rén 人\ngōng 工 chéng 程 shī 师\njiàn 建 zhù 筑 shī 师\njì 记 shě 者\nlǜ 律 shī 师\nzuò 作 jiā 家\nfú 服 wù 务 yuán 员\nshè 设 jì 计 shī 师\nyùn 运 dòng 动 yuán 员\nsī 司 jī 机\nxué 学 sheng 生\nmiàn 面 bāo 包 shī 师\nfǎ 法 guān 官"),
-                "workplaces": new Template("workplaces", "Lugares de Trabajo", "bàn 办 gōng 公 shì 室\nshāng 商 diàn 店\nbǎi 百 huò 货\ngōng 公 sī 司\nshū 书 fáng 房\nyǔ 语 yán 言\nxué 学 xiào 校\nfǎ 法 yuàn 院\nyī 医 yuàn 院\ngōng 工 chǎng 厂\njiā 家\nfáng 饭 guǎn 馆\ndà 大 xué 学\nsī 私 rén 人\nzhěn 诊 suǒ 所\njiàn 健 shēn 身 fáng 房\nyào 药 fáng 房\njiǔ 酒 diàn 店\nqiú 球 chǎng 场")
+                "workplaces": new Template("workplaces", "Lugares de Trabajo", "bàn 办 gōng 公 shì 室\nshāng 商 diàn 店\nbǎi 百 huò 货\ngōng 公 sī 司\nshū 书 fáng 房\nyǔ 语 yán 言\nxué 学 xiào 校\nfǎ 法 yuàn 院\nyī 医 yuàn 院\ngōng 工 chǎng 厂\njiā 家\nfáng 饭 guǎn 馆\ndà 大 xué 学\nsī 私 rén 人\nzhěn 诊 suǒ 所\njiàn 健 shēn 身 fáng 房\nyào 药 fáng 房\njiǔ 酒 diàn 店\nqiú 球 chǎng 场"),
+                "shopping": new Template("shopping", "De compras", "yuán 元 jiǎo 角\nkuài 块 máo 毛\nqián 钱\ngōng 公 jīn 斤\nyào 要\ndà 大 xiǎo 小\nduō 多 shǎo 少\nxīn 新\njiù 旧\nguì 贵\npián 便 yi 宜\nfān 方 biàn 便\npiāo 漂 liàng 亮\nchuān 穿\nyī 衣 fu 服\njiàn 件\ntiáo 条\nshuāng 双"),
+                "colors": new Template("colors", "Colores", "yán 颜 sè 色\nbái 白 sè 色\nhuī 灰 sè 色\nhēi 黑 sè 色\nhuáng 黄 sè 色\nhóng 红 sè 色\nlán 蓝 sè 色\nlǜ 绿 sè 色\nchéng 橙 sè 色\nzōng 棕 sè 色\nfěn 粉 hóng 红\nkā 咖 fēi 啡 sè 色\nqiǎn 浅 lán 蓝 sè 色\nshēn 深 lán 蓝 sè 色\njīn 金 sè 色\nyín 银 sè 色")
             };
 
             var createTemplate = function() {
@@ -234,8 +89,20 @@
                 console.info("Template code:\n  \"" + text + "\"");
             }
 
+            var loadTemplates = function() {
+                var client = supabase.createClient("https://xihovlvpwltfvmuljbsi.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpaG92bHZwd2x0ZnZtdWxqYnNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMyNDgxNDksImV4cCI6MjA1ODgyNDE0OX0.nqScDXbus4TXju3q0ZxpoAoit-cT3s5p7u7U0HNr57w");
+                client.from("templates").select("id,name,contents").fetch(function(d, err) {
+                    var data = d.data;
+                    for (var i = 0; i < data.length; i++) {
+                        templates[data.id] = new Template(data.id, data.name, data.contents);
+                    }
+                });
+                initTemplates();
+            }
+
             var initTemplates = function() {
                 var root = $("templates");
+                root.empty();
                 for (const key in templates) {
                     if (templates.hasOwnProperty(key)) {
                         var id = templates[key].id;

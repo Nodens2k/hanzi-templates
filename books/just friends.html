@@ -1,0 +1,220 @@
+<html>
+<head>
+    <title>我们是朋友吗?</title>
+    <style type="text/css">
+        @font-face {
+            font-family: kaiti-regular;
+            src: url("../kaiti-regular.ttf");
+        }
+        html,body {
+            font: normal 0.7cm kaiti-regular;
+            margin: 0 auto;
+            padding: 0;
+            width: 17cm;
+            line-height: 2em;
+        }
+        header {
+            background: #000;
+            color: white;
+            padding: 1cm 0.5cm;
+        }
+        nav {
+            background: #ffc;
+            border: 3px double black;
+            font-size: 1em;
+            margin: 2px;
+            padding: 1em;
+        }
+        nav li {
+            list-style: square;
+        }
+        nav li a {
+            color: #105080;
+            text-decoration: none;
+        }
+        main {
+            margin: 1em;
+        }
+        name {
+            background: #f0f0f0;
+            border-bottom: 1px solid lightgray;
+            cursor: pointer;
+        }
+        name.dict {
+            background: #ffeecc;
+            border-color: orange;
+        }
+        #personajes {
+            width: 100%;
+            clear: both;
+        }
+        character {
+            border: 1px solid gray;
+            display: inline-block;
+            margin: 3px;
+            padding: 2px;
+        }
+        character img {
+            width: 4em;
+            display: block;
+        }
+        character name {
+            display: block;
+            text-align: center;
+        }
+        .pinyin {
+            display: inline-block;
+            position: relative;
+        }
+        .pinyin small {
+            color:orangered;
+            display: block;
+            font: normal 0.4rem sans-serif;
+            left:0;
+            position: absolute;
+            text-align: center;
+            top:-1px;
+            width: 100%;
+        }
+        h1 .pinyin small {
+            color: gray;
+            top: -1.2em;
+            font-size: 0.6rem;
+        }
+        h2 .pinyin small {
+            top: -0.5em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>我们是朋友吗?</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#capitulo1"><strong>第一卷</strong>: 两个很朋友</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="Personajes">
+            <h2>人物</h2>
+            <character>
+                <img src="./qian-dapeng.png" type="image/png" alt="Qián Dàpéng"/>
+                <name title="Qián Dàpéng">钱大朋</name>
+            </character><character>
+                <img src="./xie-wendong.png" type="image/png" alt="Xiè Wéndōng"/>
+                <name title="Xiè Wéndōng">谢文东</name>
+            </character><character>
+                <img src="./zhou-zixin.png" type="image/png" alt="Zhōu Zǐxīn"/>
+                <name title="Zhōu Zǐxīn">周子心</name>
+            </character><character>
+                <img src="./xie-mama.png" type="image/png" alt="Xiè Māma"/>
+                <name title="Xiè Māma">谢妈妈</name>
+            </character><character>
+                <img src="./xie-baba.png" type="image/png" alt="Xiè Bàba"/>
+                <name title="Xiè Bàba">谢爸爸</name>
+            </character>
+        </section>
+        <section id="capitulo1">
+            <h2>第一卷: 两个很朋友</h2>
+            <p><name title="Qián Dàpéng">钱大朋</name>和<name title="Xiè Wéndōng">谢文东</name>都是<name title="Zhōngshān Dàxué">中山大学</name>的<name title="">大学生</name>，
+                今年是他们大学的第二年。他们<name class="dict" title="tiāntiān (cada día)">天天</name>一起去吃饭，一起去看书，两个人是很好朋友。</p>
+            <p><name title="Xiè Wéndōng">谢文东</name>的爸爸妈妈<name class="dict" title="kāi fàndiàn (abrir un restaurante)">开饭店</name>。<name title="Xiè Wéndōng">谢文东</name>有时候会带<name title="Qián Dàpéng">钱大朋</name>去饭店吃饭。<name title="Xiè Wéndōng">谢文东</name>的爸爸妈妈都见过<name title="Qián Dàpéng">钱大朋</name>。<name title="Qián Dàpéng">钱大朋</name>有时候也会开车带<name title="Xiè Wéndōng">谢文东</name>回家。</p>
+        </section>
+    </main>
+    <script type="text/javascript">
+        const pinyin = {
+            '爸': 'bà',
+            '车': 'chē',
+            '吃': 'chī',
+            '大': 'dà',
+            '带': 'dài',
+            '的': 'de',
+            '第': 'dì',
+            '店': 'diàn',
+            '东': 'dōng',
+            '都': 'dōu',
+            '二': 'èr',
+            '饭': 'fàn',
+            '个': 'ge',
+            '过': 'guo',
+            '好': 'hǎo',
+            '和': 'hé',
+            '很': 'hén',
+            '候': 'hou',
+            '会': 'huì',
+            '回': 'huí',
+            '家': 'jiā',
+            '见': 'jiàn',
+            '今': 'jīn',
+            '卷': 'juàn',
+            '开': 'kāi',
+            '看': 'kàn',
+            '两': 'liǎng',
+            '吗': 'má',
+            '妈': 'mā',
+            '们': 'men',
+            '年': 'nián',
+            '朋': 'péng',
+            '起': 'qǐ',
+            '钱': 'qián',
+            '去': 'qù',
+            '人': 'rén',
+            '山': 'shān',
+            '生': 'shēng',
+            '是': 'shì',
+            '时': 'shí',
+            '书': 'shū',
+            '他': 'tā',
+            '她': 'tā',
+            '天': 'tiān',
+            '文': 'wén',
+            '我': 'wǒ',
+            '物': 'wù',
+            '谢': 'xiè',
+            '心': 'xīn',
+            '学': 'xué',
+            '也': 'yě',
+            '一': 'yī',
+            '友': 'you',
+            '有': 'yǒu',
+            '中': 'zhōng',
+            '周': 'zhōu',
+            '子': 'zǐ'
+        };
+
+        const hanziRange = /[\u4E00-\u9FFF]/;
+
+        function addPinyin(elem) {
+            if (elem.nodeType === Node.ELEMENT_NODE && elem.localName !== 'span' && elem.className !== 'pinyin') {
+                const children = Array.from(elem.childNodes);
+                children.forEach(addPinyin);
+            } else if (elem.nodeType === Node.TEXT_NODE) {
+                const texto = elem.nodeValue;
+                let nuevoContenido = '';
+                for (let i = 0; i < texto.length; i++) {
+                    let ch = texto[i];
+                    let py = pinyin[ch];
+                    if (py) {
+                        nuevoContenido += `<span class="pinyin">${ch}<small>${py}</small></span>`;
+                    } else {
+                        if (hanziRange.test(ch)) {
+                            console.warn("Carácter desconocido: " + ch);
+                        }
+                        nuevoContenido += ch;
+                    }
+                }
+                const fragmento = document.createRange().createContextualFragment(nuevoContenido);
+                elem.parentNode.replaceChild(fragmento, elem);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const elements = Array.from(document.querySelectorAll('body'));
+            elements.forEach(element => {
+                addPinyin(element);
+            });
+        });
+    </script>
+</body>
+</html>
