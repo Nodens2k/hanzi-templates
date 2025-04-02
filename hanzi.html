@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="es-ES">
     <head>
-        <title>Hanzi Chart</title>
+        <title>Generador de Plantillas Hanzi</title>
         <meta charset="UTF-8">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="main.css">
+        <link rel="icon" href="./favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="main.css">
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     </head>
     <body>
         <h1 class="no-print">Generador de Plantillas Hanzi</h1>
@@ -28,38 +27,12 @@
                 <button>ā</button><button>ē</button><button>ī</button><button>ō</button><button>ū</button><button>ǖ</button><br>
                 <button>ǎ</button><button>ě</button><button>ǐ</button><button>ǒ</button><button>ǔ</button><button>ǚ</button>
             </keyboard></div>
-            <div class="label"><span>Plantillas de ejemplo: (<a id="btnReload" href="#">recargar</a>)</span><templates>
-                
-            </templates></div>
+            <div class="label">
+                <span>Plantillas de ejemplo: (<a id="btnReload" href="#">recargar</a>)</span>
+                <templates>
+                </templates>
+            </div>
         </form>
-        <script type="application/javascript">
-            $.fn.insertAtCaret = function(text) {
-                return this.each(function() {
-                    if (document.selection && this.tagName == 'TEXTAREA') {
-                        //IE textarea support
-                        this.focus();
-                        sel = document.selection.createRange();
-                        sel.text = text;
-                        this.focus();
-                    } else if (this.selectionStart || this.selectionStart == '0') {
-                        //MOZILLA/NETSCAPE support
-                        startPos = this.selectionStart;
-                        endPos = this.selectionEnd;
-                        scrollTop = this.scrollTop;
-                        this.value = this.value.substring(0, startPos) + text + this.value.substring(endPos, this.value.length);
-                        this.focus();
-                        this.selectionStart = startPos + text.length;
-                        this.selectionEnd = startPos + text.length;
-                        this.scrollTop = scrollTop;
-                    } else {
-                        // IE input[type=text] and other browsers
-                        this.value += text;
-                        this.focus();
-                        this.value = this.value;    // forces cursor to end
-                    }
-                });
-            };
-        </script>
         <script type="module">
             import { Template, TemplateEditor } from './template-editor.js';
 
@@ -76,27 +49,8 @@
                 new Template("time1", "Tiempo", "qián 前\nzuó 昨\njīn 今\nmíng 明\nhòu 后\nqù 去\ntiān 天\nnián 年\nyuè 月\nxīng 星 qī 期\nzhè 这\ndiǎn 点\nfēn 分\nbàn 半\ncóng 从\ndào 到"),
                 new Template("professions1", "Oficios", "zhí 职 yè 业\nlǎo 老 shī 师\ngōng 工 rén 人\nshòu 售 huò 货 yuán 员\nyī 医 shēng 生\nzhí 职 yuán 员\njiā 家 tíng 庭 zhǔ 主 fù 妇\njiā 家 tíng 庭 zhǔ 主 fū 夫\nhù 护 shì 士\nmì 秘 shū 书\nshāng 商 rén 人\ngōng 工 chéng 程 shī 师\njiàn 建 zhù 筑 shī 师\njì 记 shě 者\nlǜ 律 shī 师\nzuò 作 jiā 家\nfú 服 wù 务 yuán 员\nshè 设 jì 计 shī 师\nyùn 运 dòng 动 yuán 员\nsī 司 jī 机\nxué 学 sheng 生\nmiàn 面 bāo 包 shī 师\nfǎ 法 guān 官"),
                 new Template("workplaces", "Lugares de Trabajo", "bàn 办 gōng 公 shì 室\nshāng 商 diàn 店\nbǎi 百 huò 货\ngōng 公 sī 司\nshū 书 fáng 房\nyǔ 语 yán 言\nxué 学 xiào 校\nfǎ 法 yuàn 院\nyī 医 yuàn 院\ngōng 工 chǎng 厂\njiā 家\nfáng 饭 guǎn 馆\ndà 大 xué 学\nsī 私 rén 人\nzhěn 诊 suǒ 所\njiàn 健 shēn 身 fáng 房\nyào 药 fáng 房\njiǔ 酒 diàn 店\nqiú 球 chǎng 场"),
-                new Template("shopping", "De compras", "yuán 元 jiǎo 角\nkuài 块 máo 毛\nqián 钱\ngōng 公 jīn 斤\nyào 要\ndà 大 xiǎo 小\nduō 多 shǎo 少\nxīn 新\njiù 旧\nguì 贵\npián 便 yi 宜\nfān 方 biàn 便\npiāo 漂 liàng 亮\nchuān 穿\nyī 衣 fu 服\njiàn 件\ntiáo 条\nshuāng 双"),
-                new Template("colors", "Colores", "yán 颜 sè 色\nbái 白 sè 色\nhuī 灰 sè 色\nhēi 黑 sè 色\nhuáng 黄 sè 色\nhóng 红 sè 色\nlán 蓝 sè 色\nlǜ 绿 sè 色\nchéng 橙 sè 色\nzōng 棕 sè 色\nfěn 粉 hóng 红\nkā 咖 fēi 啡 sè 色\nqiǎn 浅 lán 蓝 sè 色\nshēn 深 lán 蓝 sè 色\njīn 金 sè 色\nyín 银 sè 色"),
             ];
-
-            $(document).ready(async function() {
-                await editor.init(false);
-
-                var query = window.location.search;
-                var params = new URLSearchParams(query);
-                if (params.has("size")) {
-                    var size = params.get("size").includes("17") ? "grid-17mm" : "grid-10mm";
-                    $("#grid-size").val(size);
-                }
-                if (params.has("hanzis")) {
-                    var text = params.get("hanzis");
-                    $("#hanzis").val(text);
-                    $("#btnUpdate").click();
-                } else {
-                    $(".template:first-of-type").click();
-                }
-            });
+            editor.init(false);
         </script>
     </body>
 </html>

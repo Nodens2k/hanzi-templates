@@ -1,4 +1,5 @@
-
+import $ from 'https://cdn.skypack.dev/jquery';
+import './insert-at-caret.js';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 const dbUrl = "https://xihovlvpwltfvmuljbsi.supabase.co";
@@ -105,42 +106,58 @@ export class TemplateEditor {
         }
     }
 
-    async init(mergeOffline) {
-        const gridSelector = $("#grid-size");
-        const editor = $("#hanzis");
-        const btnUpdate = $("#btnUpdate");
-        const btnLink = $("#btnLink");
+    init(mergeOffline) {
         const self = this;
+        $(document).ready(async function() {
+            const gridSelector = $("#grid-size");
+            const editor = $("#hanzis");
+            const btnUpdate = $("#btnUpdate");
+            const btnLink = $("#btnLink");
 
-        // Prevent form submit
-        $("form").submit(function (e) { e.preventDefault(); });
+            // Prevent form submit
+            $("form").submit(function (e) { e.preventDefault(); });
 
-        gridSelector.change(function() {
-            var klass = $(this).val();
-            $("#t").attr("class", klass);
-            self.grid.update();
-        });
-        btnUpdate.click(function() {
-            self.grid.update();
-        });
-        btnLink.click(function() {
-            var text = editor.val();
-            var gridSize = gridSelector.val();
+            gridSelector.change(function() {
+                var klass = $(this).val();
+                $("#t").attr("class", klass);
+                self.grid.update();
+            });
+            btnUpdate.click(function() {
+                self.grid.update();
+            });
+            btnLink.click(function() {
+                var text = editor.val();
+                var gridSize = gridSelector.val();
 
-            var url = window.location.origin + window.location.pathname + "?size=" + gridSize + "&hanzis=" + encodeURIComponent(text);
-            navigator.clipboard.writeText(url);
-            console.debug("Link copied to clipboard: " + url);
-        });
-        $("#btnReload").click(function() {
-            self.loadTemplates(mergeOffline);
-        });
+                var url = window.location.origin + window.location.pathname + "?size=" + gridSize + "&hanzis=" + encodeURIComponent(text);
+                navigator.clipboard.writeText(url);
+                console.debug("Link copied to clipboard: " + url);
+            });
+            $("#btnReload").click(function() {
+                self.loadTemplates(mergeOffline);
+            });
 
-        // Special character buttons
-        $("keyboard button").click(function() {
-            var letter = $(this).text();
-            $("#hanzis").insertAtCaret(letter);
-        });
+            // Special character buttons
+            $("keyboard button").click(function() {
+                var letter = $(this).text();
+                $("#hanzis").insertAtCaret(letter);
+            });
 
-        await self.loadTemplates(mergeOffline);
+            await self.loadTemplates(mergeOffline);
+            
+            var query = window.location.search;
+            var params = new URLSearchParams(query);
+            if (params.has("size")) {
+                var size = params.get("size").includes("17") ? "grid-17mm" : "grid-10mm";
+                $("#grid-size").val(size);
+            }
+            if (params.has("hanzis")) {
+                var text = params.get("hanzis");
+                $("#hanzis").val(text);
+                $("#btnUpdate").click();
+            } else {
+                $(".template:first-of-type").click();
+            }
+        });
     }
 }
