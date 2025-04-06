@@ -2,6 +2,8 @@ import $ from 'https://cdn.skypack.dev/jquery';
 
 $.fn.insertAtCaret = function(text) {
     return this.each(function() {
+        var sel, startPos, endPos, scrollTop;
+
         if (document.selection && this.tagName == 'TEXTAREA') {
             //IE textarea support
             this.focus();

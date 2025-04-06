@@ -24,10 +24,42 @@ Printing to PDF is another great way to share your work with other people.
 
 ## Template syntax
 
-The syntax is as follows:
+Two different syntaxes are supported:
+- Pinyin+Hanzi pair syntax
+- CSV table syntax
 
-- An empty line generates an empty template row
-- Each line must be composed of an even number of words separated by spaces. In each pair of words, the first word is the pinyin
+### Pinyin+Hanzi pair syntax
+
+- Each text line translates to a pinyin+hanzi row pair in the generated template
+- An empty line is converted into an empty row pair
+- Each line is composed of an even number of space-separated words. In each pair of words, the first word is the pinyin
   transcription, and the second one contains the hanzi
 
-Use the small keyboard below the template edit box to insert special vowels. The character will be inserted at the current position.
+For example:
+```
+ni3 你 hao3 好
+```
+
+### CSV-like table syntax
+
+- Each line translates into a template row, alternating between pinyin and hanzi rows
+- Cells in each row are delimited by any of the following characters: .,|/
+- Space characters and tabs can be used for aligning cells and improve the template readability
+- The template must contain at least one of the separator characters for the generator to correctly detect this syntax
+
+The same example as before would be written as:
+```
+| ni3 | hao3 |
+|  你 |  好  |
+```
+or even:
+```
+nǐ,hǎo
+你，好
+```
+
+
+### Writing pinyin
+
+When writing pinyin, vowels with tone marks can be entered through the pinyin keyboard to the right of the text contents, or alternatively
+"tone numbers" can be used. That is, you can either write "hǎo", or "hao3".

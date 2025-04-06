@@ -25,7 +25,10 @@ export class HanziGrid {
         }
 
         var tbody, i, j, k, n, mod, contents;
-        var lines = $("#hanzis").val().split(/\n/);
+        var contents = $("#hanzis").val();
+        contents = this.translateNumericTones(contents);
+        contents = this.translateNewSyntax(contents);
+        var lines = contents.split(/\n/);
 
         tbody = $("#t tbody");
         tbody.empty();
@@ -52,6 +55,59 @@ export class HanziGrid {
             }
             tbody.append(row1, row2);
         }
+    }
+    translateNumericTones(s) {
+        
+        const tonos = {
+            'a': ['ā', 'á', 'ǎ', 'à'],
+            'e': ['ē', 'é', 'ě', 'è'],
+            'i': ['ī', 'í', 'ǐ', 'ì'],
+            'o': ['ō', 'ó', 'ǒ', 'ò'],
+            'u': ['ū', 'ú', 'ǔ', 'ù'],
+            'ü': ['ǖ', 'ǘ', 'ǚ', 'ǜ']
+        };
+
+        return s.replace(/([a-zü]+)([1-4])/gi, function(match, syllable, tone) {
+            let vowel = '';
+            if (syllable.includes('a')) {
+                vowel = 'a';
+            } else if (syllable.includes('e')) {
+                vowel = 'e';
+            } else if (syllable.includes('ou')) {
+                vowel = 'o';
+            } else {
+                const vowels = ['i', 'o', 'u', 'ü'];
+                for (let v of vowels) {
+                if (syllable.includes(v)) {
+                    vowel = v;
+                    break;
+                }
+                }
+            }
+            return syllable.replace(vowel, tonos[vowel][tone - 1]);
+        });
+    }
+    translateNewSyntax(s) {
+        if (!/.*[\.,|/，。].*/.test(s)) {
+            // Sintaxis original
+            return s;
+        }
+
+        // Sintaxis de tabla markdown
+        const separator = /\s*[\.,|/，。]\s*/;
+        var translated = '';
+        var lines = s.split(/\n/);
+        for (var i = 0; i < lines.length; i+= 2) {
+            var row_pinyin = lines[i].split(separator);
+            var row_hanzis = lines[i+1].split(separator);
+            var cells = Math.min(row_pinyin.length, row_hanzis.length);
+            for (var j = 0; j < cells; j++) {
+                translated += row_pinyin[j] + ' ' + row_hanzis[j] + ' ';
+            }
+            translated += '\n';
+        }
+        console.log("translated to: ", translated);
+        return translated.substring(0, translated.length - 1);
     }
 }
 
@@ -112,20 +168,28 @@ export class TemplateEditor {
             const gridSelector = $("#grid-size");
             const editor = $("#hanzis");
             const btnUpdate = $("#btnUpdate");
-            const btnLink = $("#btnLink");
+            const btnPrint = $("#btnPrint");
+            const btnShare = $("#btnShare");
 
             // Prevent form submit
             $("form").submit(function (e) { e.preventDefault(); });
 
-            gridSelector.change(function() {
-                var klass = $(this).val();
-                $("#t").attr("class", klass);
-                self.grid.update();
+            // Show/Hide settings panel
+            $("#settings").click(function(event) {
+                if (event.target === this) {
+                    $(this).removeClass("visible");
+                }
             });
+            $("#menu-icon").click(function() {
+                $("#settings").addClass("visible");
+            })
             btnUpdate.click(function() {
                 self.grid.update();
             });
-            btnLink.click(function() {
+            btnPrint.click(function() {
+                window.print();
+            });
+            btnShare.click(function() {
                 var text = editor.val();
                 var gridSize = gridSelector.val();
 
@@ -133,14 +197,14 @@ export class TemplateEditor {
                 navigator.clipboard.writeText(url);
                 console.debug("Link copied to clipboard: " + url);
             });
+
+            gridSelector.change(function() {
+                var klass = $(this).val();
+                $("#t").attr("class", klass);
+                self.grid.update();
+            });
             $("#btnReload").click(function() {
                 self.loadTemplates(mergeOffline);
-            });
-
-            // Special character buttons
-            $("keyboard button").click(function() {
-                var letter = $(this).text();
-                $("#hanzis").insertAtCaret(letter);
             });
 
             await self.loadTemplates(mergeOffline);
@@ -158,6 +222,26 @@ export class TemplateEditor {
             } else {
                 $(".template:first-of-type").click();
             }
+            $("#settings").addClass("visible");
+            
+            var hanzis = editor[0];
+            var codeMirror = CodeMirror.fromTextArea(hanzis, {
+                lineNumbers: true,
+                mode: "javascript",
+                indentWithTabs: true,
+                tabSize: 7,
+                indentUnit: 7,
+                value: hanzis.textContent
+            });
+            codeMirror.on("blur", function() {
+                editor.val(codeMirror.getValue());
+            });
+
+            // Special character buttons
+            $("keyboard button").click(function() {
+                var letter = $(this).text();
+                codeMirror.replaceSelection(letter);
+            });
         });
     }
 }

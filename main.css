@@ -13,6 +13,9 @@
         font-size: 0.27cm !important;
     }
 
+    #t {
+        margin: 1em !important;
+    }
     .grid-10mm .hanzi {
         height:1cm !important; 
     }
@@ -45,12 +48,14 @@ body {
     font: 9pt normal Calibri,Arial,Helvetica,sans-serif;
     margin: 0;
 }
+
+/* Template Grid */
 #t {
     background: #fff;
     border-collapse: collapse;
     border-spacing: 0;
     float: left;
-    margin: 1em;
+    margin: 5em 1em 1em 1em;
 }
 #t td.black { color: #000 }
 #t td { border: 1px solid #000; color:#c0c0c0 }
@@ -88,11 +93,72 @@ body {
     font-size: 4vw;
 }
 
-form {
+/* Cabecera */
+h1 {
+    background: #123;
+    color: #ffa;
+    margin:0;
+    padding: 0px 20px;
+    display: block;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    font-size: 2vw;
+    line-height: 4vw;
+}
+
+#menu-icon {
+    cursor: pointer;
+}
+
+/* Panel Settings */
+.layer {
+    background: transparent;
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.visible {
+    display:block;
+}
+menu {
+    border-bottom: 1px solid #776;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding:0.2vw;
+    left:0;
+    right:0;
+}
+menu-option {
+    border-right: 1px solid #776;
+    display:inline-block;
+    margin: 0;
+    padding:0.5vw;
+    text-align: center;
+    cursor: pointer;
+}
+menu-option:first-of-type {
+    border-left: 1px solid #776;
+}
+menu-option:hover {
+    background-color: #bba;
+}
+#f {
     background: #D8DBCE;
-    float: left;
-    margin: 1em 0 1em 0.5em;
-    padding: 0.5vw;
+    position: absolute;
+    display: block;
+    margin: 0 0 1em 0em;
+    padding: 0vw;
+    top: 4vw;
+    left:0;
+}
+.card {
+    float:left;
 }
 .label {
     display: block;
@@ -100,8 +166,16 @@ form {
 }
 .label span {
     display: block;
-    width: 11em;
 }
+
+textarea#hanzis {
+    box-sizing: border-box;
+    font: 2vw "Calibri", sans-serif;
+    text-align:left;
+    vertical-align: top;
+    width: 35vw;
+}
+
 button {
     background: #bba;
     border: 1px solid #776;
@@ -112,18 +186,22 @@ button {
 button:hover, button::selection {
     background: #887;
 }
+
+/** Pinyin keyboard */
 keyboard {
     display: inline-block;
 }
 keyboard button {
     box-sizing: border-box;
     display: inline-block;
-    margin: 1px 2px;
-    min-width: 3vw;
-    padding: 1px 4px;
+    margin: 0.1vw 0.2vw;
+    width: 3vw;
 }
+
+/* Template buttons */
 templates {
     display: inline-block;
+    overflow-y: auto;
 }
 templates button {
     box-sizing: border-box;
@@ -133,17 +211,22 @@ templates button {
     min-width: 20vw;
     padding: 1px 4px;
 }
-textarea {
-    box-sizing: border-box;
-    font: 1.1vw "Calibri", sans-serif;
-    padding: .5rem;
-    text-align:left;
-    vertical-align: top;
-    width: 20vw;
+
+/* CodeMirror customization */
+.CodeMirror {
+    height: auto;
+    border: 1px solid #ddd;
+    width: 36vw;
+    height: 24vw;
+    font-size: 2vw;
+    font-family: monospace;
 }
-h1 {
-    background: #123;
-    color: #ffa;
-    margin:0;
-    padding: 10px 20px;
+.CodeMirror-code>div:nth-child(odd) {
+    background-color: #f0f0f0;
+}
+.CodeMirror-code>div:nth-child(even) {
+    background-color: #ffffff;
+}
+.cm-tab {
+    display: inline-block !important;
 }
