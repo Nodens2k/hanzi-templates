@@ -13,6 +13,7 @@ export function Template(id, label, contents) {
 }
 
 export class HanziGrid {
+    codeMirror = null;
     
     update() {
         console.debug("Grid updated");
@@ -25,7 +26,7 @@ export class HanziGrid {
         }
 
         var tbody, i, j, k, n, mod, contents;
-        var contents = $("#hanzis").val();
+        var contents = this.codeMirror.getValue();
         contents = this.translateNumericTones(contents);
         contents = this.translateNewSyntax(contents);
         var lines = contents.split(/\n/);
@@ -114,11 +115,11 @@ export class HanziGrid {
 export class TemplateEditor {
     offlineTemplates = [];
     grid = new HanziGrid();
+    codeMirror = null;
 
     updateTemplate(elem) {
-        var id = elem.id;
         var template = $(elem).data("template");
-        $("#hanzis").val(template.contents);
+        this.codeMirror.setValue(template.contents);
         this.grid.update();
     }
 
@@ -135,6 +136,9 @@ export class TemplateEditor {
         $(".template").click(function() {
             self.updateTemplate(this);
         });
+        setTimeout(function() {
+            self.codeMirror.refresh();
+        }, 1);
     }
 
     async loadTemplates(mergeOffline) {
@@ -166,10 +170,20 @@ export class TemplateEditor {
         const self = this;
         $(document).ready(async function() {
             const gridSelector = $("#grid-size");
-            const editor = $("#hanzis");
             const btnUpdate = $("#btnUpdate");
             const btnPrint = $("#btnPrint");
             const btnShare = $("#btnShare");
+            
+            var textarea = document.getElementById("hanzis");
+            self.codeMirror = CodeMirror.fromTextArea(textarea, {
+                lineNumbers: true,
+                mode: "javascript",
+                indentWithTabs: true,
+                tabSize: 7,
+                indentUnit: 7,
+                value: textarea.textContent
+            });
+            self.grid.codeMirror = self.codeMirror;
 
             // Prevent form submit
             $("form").submit(function (e) { e.preventDefault(); });
@@ -190,11 +204,15 @@ export class TemplateEditor {
                 window.print();
             });
             btnShare.click(function() {
-                var text = editor.val();
+                var text = self.codeMirror.getValue();
                 var gridSize = gridSelector.val();
 
                 var url = window.location.origin + window.location.pathname + "?size=" + gridSize + "&hanzis=" + encodeURIComponent(text);
                 navigator.clipboard.writeText(url);
+                $("notification").removeClass("fadeout");
+                setTimeout(function() {
+                    $("notification").addClass("fadeout");
+                }, 1000);
                 console.debug("Link copied to clipboard: " + url);
             });
 
@@ -217,31 +235,19 @@ export class TemplateEditor {
             }
             if (params.has("hanzis")) {
                 var text = params.get("hanzis");
-                $("#hanzis").val(text);
+                self.codeMirror.setValue(text);
                 $("#btnUpdate").click();
             } else {
                 $(".template:first-of-type").click();
             }
             $("#settings").addClass("visible");
-            
-            var hanzis = editor[0];
-            var codeMirror = CodeMirror.fromTextArea(hanzis, {
-                lineNumbers: true,
-                mode: "javascript",
-                indentWithTabs: true,
-                tabSize: 7,
-                indentUnit: 7,
-                value: hanzis.textContent
-            });
-            codeMirror.on("blur", function() {
-                editor.val(codeMirror.getValue());
-            });
 
             // Special character buttons
             $("keyboard button").click(function() {
                 var letter = $(this).text();
-                codeMirror.replaceSelection(letter);
+                self.codeMirror.replaceSelection(letter);
             });
         });
     }
+
 }

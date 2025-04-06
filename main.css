@@ -148,6 +148,23 @@ menu-option:first-of-type {
 menu-option:hover {
     background-color: #bba;
 }
+notification {
+    background: #000;
+    color: #fff;
+    line-height: 3vw;
+    border-radius:0.2vw;
+    padding: 0.5vw;
+    left:1vw;
+    display: block;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0s ease-out; /* Efecto de fade-out */
+}
+.fadeout {
+    opacity: 0;
+    transition: opacity 1s ease-out; /* Transición de 1 a 0 tarda 1s */
+  
+}
 #f {
     background: #D8DBCE;
     position: absolute;
@@ -217,7 +234,7 @@ templates button {
     height: auto;
     border: 1px solid #ddd;
     width: 36vw;
-    height: 24vw;
+    height: 26vw;
     font-size: 2vw;
     font-family: monospace;
 }
