@@ -2,37 +2,52 @@
 <html lang="es-ES">
     <head>
         <title>Generador de Plantillas Hanzi</title>
-        <meta charset="UTF-8">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="icon" href="./favicon.ico" type="image/x-icon">
-        <link rel="stylesheet" type="text/css" href="main.css">
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap" rel="stylesheet">
+        <meta charset="UTF-8"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+        <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@100..900&display=swap"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css"/>
+        <link rel="stylesheet" type="text/css" href="main.css" />
     </head>
     <body>
-        <h1 class="no-print">Generador de Plantillas Hanzi</h1>
+        <h1 class="no-print">
+            <span id="menu-icon" class="material-symbols-outlined">menu</span> Generador de Plantillas Hanzi
+        </h1>
 
         <table id="t" class="grid-10mm">
             <tbody>
             </tbody>
         </table>
-        <form id="f" class="no-print" onsubmit="false">
-            <div class="label"><span>Tamaño: </span><select id="grid-size"><option value="grid-10mm">10mm</option><option value="grid-17mm">17mm</option></select></div>
-            <div class="label"><span>Hanzis: </span><textarea id="hanzis" cols="30" rows="7"></textarea></div>
-            <div class="label"><span></span><button type="button" id="btnUpdate">Actualizar</button> &nbsp; <button type="button" id="btnLink">Copiar Enlace</button></div>
-            <div class="label"><span></span><keyboard>
-                Caracteres especiales <br>(pulsar para insertar):<br>
-                <button>á</button><button>é</button><button>í</button><button>ó</button><button>ú</button><button>ǘ</button><br>
-                <button>à</button><button>è</button><button>ì</button><button>ò</button><button>ù</button><button>ǜ</button><br>
-                <button>ā</button><button>ē</button><button>ī</button><button>ō</button><button>ū</button><button>ǖ</button><br>
-                <button>ǎ</button><button>ě</button><button>ǐ</button><button>ǒ</button><button>ǔ</button><button>ǚ</button>
-            </keyboard></div>
-            <div class="label">
-                <span>Plantillas de ejemplo: (<a id="btnReload" href="#">recargar</a>)</span>
-                <templates>
-                </templates>
-            </div>
-        </form>
+        <div class="layer" id="settings">
+            <form id="f" class="no-print" onsubmit="false">
+                <menu>
+                    <menu-option id="btnUpdate"><span class="material-symbols-outlined">refresh</span><br/>Actualizar</menu-option>
+                    <menu-option id="btnPrint"><span class="material-symbols-outlined">print</span><br/>Imprimir</menu-option>
+                    <menu-option id="btnShare"><span class="material-symbols-outlined">share</span><br/>Compartir</menu-option>
+                </menu>
+                <div class="label"><span>Tamaño: </span><select id="grid-size"><option value="grid-10mm">10mm</option><option value="grid-17mm">17mm</option></select></div>
+                <div class="card">
+                    <div class="label"><span>Hanzis: </span><textarea id="hanzis" cols="30" rows="10"></textarea></div>
+                </div>
+                <div class="card">
+                    <div class="label"><span></span><keyboard>
+                        Teclado pinyin:<br>
+                        <button>á</button><button>é</button><button>í</button><button>ó</button><button>ú</button><button>ǘ</button><br>
+                        <button>à</button><button>è</button><button>ì</button><button>ò</button><button>ù</button><button>ǜ</button><br>
+                        <button>ā</button><button>ē</button><button>ī</button><button>ō</button><button>ū</button><button>ǖ</button><br>
+                        <button>ǎ</button><button>ě</button><button>ǐ</button><button>ǒ</button><button>ǔ</button><button>ǚ</button>
+                    </keyboard></div>
+                    <div class="label">
+                        <span>Plantillas de ejemplo: (<a id="btnReload" href="#">recargar</a>)</span>
+                        <templates>
+                        </templates>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
         <script type="module">
             import { Template, TemplateEditor } from './template-editor.js';
 
@@ -51,6 +66,7 @@
                 new Template("workplaces", "Lugares de Trabajo", "bàn 办 gōng 公 shì 室\nshāng 商 diàn 店\nbǎi 百 huò 货\ngōng 公 sī 司\nshū 书 fáng 房\nyǔ 语 yán 言\nxué 学 xiào 校\nfǎ 法 yuàn 院\nyī 医 yuàn 院\ngōng 工 chǎng 厂\njiā 家\nfáng 饭 guǎn 馆\ndà 大 xué 学\nsī 私 rén 人\nzhěn 诊 suǒ 所\njiàn 健 shēn 身 fáng 房\nyào 药 fáng 房\njiǔ 酒 diàn 店\nqiú 球 chǎng 场"),
             ];
             editor.init(false);
+
         </script>
     </body>
 </html>
